@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍽️ 餐廳選擇器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Microsoft JhengHei", "微軟正黑體", sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px 20px;
+            min-height: 400px;
+        }
+
+        .step-title {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .button-grid {
+            display: grid;
+            gap: 15px;
+        }
+
+        .button-grid.two-cols {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+            color: white;
+            border: none;
+            padding: 18px 20px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-family: inherit;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            font-size: 18px;
+            padding: 20px;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #757575 0%, #616161 100%);
+            padding: 12px 20px;
+            font-size: 14px;
+        }
+
+        .back-btn {
+            margin-bottom: 20px;
+            width: auto;
+            display: inline-block;
+        }
+
+        .result-container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .celebration {
+            font-size: 48px;
+            margin: 20px 0;
+            animation: bounce 1s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .result-text {
+            font-size: 18px;
+            color: #666;
+            margin: 10px 0;
+        }
+
+        .result-category {
+            font-size: 22px;
+            color: #FF9800;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .result-restaurant {
+            font-size: 32px;
+            color: #4CAF50;
+            font-weight: bold;
+            margin: 25px 0;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 12px;
+            border: 3px dashed #4CAF50;
+        }
+
+        .result-wish {
+            font-size: 16px;
+            color: #666;
+            margin: 20px 0;
+        }
+
+        .result-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .result-buttons .btn {
+            flex: 1;
+            min-width: 140px;
+        }
+
+        .category-scroll {
+            max-height: 450px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .category-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .category-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .category-scroll::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+
+        .category-scroll::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* 手機優化 */
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .btn {
+                padding: 15px;
+                font-size: 15px;
+            }
+
+            .result-restaurant {
+                font-size: 26px;
+            }
+
+            .button-grid.two-cols {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🍽️ 餐廳選擇器</h1>
+            <p>再也不用煩惱吃什麼了！</p>
+        </div>
+        <div class="content" id="content">
+            <!-- 內容將由 JavaScript 動態生成 -->
+        </div>
+    </div>
+
+    <script>
+        // 餐廳資料庫
+        const restaurants = {
+            "早餐": {
+                "中式早餐": ["店名1", "店名2", "店名3"],
+                "西式早餐": ["店名1", "店名2", "店名3"],
+                "早午餐": ["店名1", "店名2", "店名3"],
+                "粥品": ["店名1", "店名2", "店名3"],
+                "麵包店": ["店名1", "店名2", "店名3"],
+                "速食": ["店名1", "店名2", "店名3"],
+                "蛋餅店": ["店名1", "店名2", "店名3"],
+                "豆漿店": ["店名1", "店名2", "店名3"]
+            },
+            "午餐": {
+                "隨便吃的小東西": ["甘泉魚麵", "懶得煮", "皇帝海鮮泡飯", "上野烤肉飯", "黃燜雞", "中壢夜市", "海都", "蟑螂咖哩", "文化生炒羊肉", "中原夜市", "東岐羊肉", "健康餐"],
+                "學校": ["鹹水雞", "迷路", "竹香", "秘密基地", "關東煮", "自己煮", "家鄉", "白鬍子", "櫥窗", "燒臘飯", "粥", "一屌鍋", "食間", "阿米玲", "風味便當"],
+                "火鍋": ["石二鍋", "築間", "兩餐", "肉多多", "荖子鍋"],
+                "燒烤": ["燒肉smile", "店名2", "店名3"],
+                "生魚片": ["藏壽司", "壽司郎", "鱻漁", "歐告卷", "黑糖喵", "坐著做", "鯓丼食堂"],
+                "吃到飽": ["Momo paradise", "一番地", "木村堂"],
+                "西式料理": ["本物洋食", "義匠", "簡單生活"],
+                "拉麵": ["拉麵吧", "牛浜", "店名3"],
+                "速食": ["麥當勞", "肯德基", "拿波里", "披薩hut", "必勝客", "摩斯漢堡", "漢堡王"]
+            },
+            "晚餐": {
+                "隨便吃的小東西": ["甘泉魚麵", "懶得煮", "皇帝海鮮泡飯", "上野烤肉飯", "黃燜雞", "中壢夜市", "海都", "蟑螂咖哩", "文化生炒羊肉", "中原夜市", "東岐羊肉", "健康餐"],
+                "學校": ["鹹水雞", "迷路", "竹香", "秘密基地", "關東煮", "自己煮", "家鄉", "白鬍子", "櫥窗", "燒臘飯", "粥", "一屌鍋", "食間", "阿米玲", "風味便當"],
+                "火鍋": ["石二鍋", "築間", "兩餐", "肉多多", "荖子鍋"],
+                "燒烤": ["燒肉smile", "店名2", "店名3"],
+                "生魚片": ["藏壽司", "壽司郎", "鱻漁", "歐告卷", "黑糖喵", "坐著做", "鯓丼食堂"],
+                "吃到飽": ["Momo paradise", "一番地", "木村堂"],
+                "西式料理": ["本物洋食", "義匠", "簡單生活"],
+                "拉麵": ["拉麵吧", "牛浜", "店名3"],
+                "速食": ["麥當勞", "肯德基", "拿波里", "披薩hut", "必勝客", "摩斯漢堡", "漢堡王"]
+            }
+        };
+
+        let selectedTime = null;
+        let selectedCategory = null;
+
+        // 隨機選擇函數
+        function randomChoice(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        // 顯示用餐時段選擇
+        function showMealTimeSelection() {
+            const content = document.getElementById('content');
+            content.className = 'content fade-in';
+            
+            const mealTimes = Object.keys(restaurants);
+            const icons = { "早餐": "🌅", "午餐": "🌞", "晚餐": "🌙" };
+            
+            let html = '<div class="step-title">請選擇用餐時段</div>';
+            html += '<div class="button-grid">';
+            
+            mealTimes.forEach(time => {
+                html += `<button class="btn btn-primary" onclick="selectMealTime('${time}')">
+                    ${icons[time]} ${time}
+                </button>`;
+            });
+            
+            html += '</div>';
+            content.innerHTML = html;
+        }
+
+        // 選擇用餐時段
+        function selectMealTime(time) {
+            selectedTime = time;
+            showCategorySelection();
+        }
+
+        // 顯示餐廳種類選擇
+        function showCategorySelection() {
+            const content = document.getElementById('content');
+            content.className = 'content fade-in';
+            
+            const categories = Object.keys(restaurants[selectedTime]);
+            
+            let html = `<button class="btn btn-secondary back-btn" onclick="showMealTimeSelection()">
+                ← 返回
+            </button>`;
+            html += `<div class="step-title">${selectedTime} - 請選擇餐廳種類</div>`;
+            html += '<div class="category-scroll"><div class="button-grid two-cols">';
+            
+            categories.forEach(category => {
+                html += `<button class="btn" onclick="selectCategory('${category}')">
+                    ${category}
+                </button>`;
+            });
+            
+            html += '</div></div>';
+            content.innerHTML = html;
+        }
+
+        // 選擇餐廳種類
+        function selectCategory(category) {
+            selectedCategory = category;
+            const restaurantList = restaurants[selectedTime][selectedCategory];
+            const chosenRestaurant = randomChoice(restaurantList);
+            showResult(chosenRestaurant);
+        }
+
+        // 顯示結果
+        function showResult(restaurantName) {
+            const content = document.getElementById('content');
+            content.className = 'content fade-in';
+            
+            let html = `
+                <div class="result-container">
+                    <div class="celebration">🎉 🎊 🎉</div>
+                    <div class="result-text">今天${selectedTime}吃</div>
+                    <div class="result-category">【${selectedCategory}】</div>
+                    <div class="result-restaurant">🎯 ${restaurantName}</div>
+                    <div class="result-wish">祝用餐愉快！ 😋</div>
+                    <div class="result-buttons">
+                        <button class="btn btn-secondary" onclick="showMealTimeSelection()">
+                            🔄 重新選擇
+                        </button>
+                        <button class="btn btn-primary" onclick="selectCategory('${selectedCategory}')">
+                            🎲 換一家
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            content.innerHTML = html;
+        }
+
+        // 初始化
+        showMealTimeSelection();
+    </script>
+</body>
+</html>
